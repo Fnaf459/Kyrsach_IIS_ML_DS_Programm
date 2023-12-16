@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+          background-color: #000000;
+          color: #ffffff;
+        }
+
+        #content {
+          margin: 20px;
+        }
+    </style>
+    <title>Классификация игр</title>
+</head>
+<body>
+    <h1>Классификация игр</h1>
+
+    <!-- Форма для ввода данных -->
+    <form method="POST" action="/Decision_Tree_Classification/">
+        <label for="price">Цена игры:</label>
+        <input type="text" name="price" id="price" required>
+        <br>
+        <label for="genres">Жанры игры:</label>
+        <input type="text" name="genres" id="genres" required>
+        <br>
+        <label for="release_date">Дата релиза игры:</label>
+        <input type="text" name="release_date" id="release_date" required>
+        <br>
+        <button type="submit">Выполнить</button>
+    </form>
+
+    <!-- Результат классификации -->
+    {% if prediction_result %}
+        <h2>Результат классификации:</h2>
+        <p>Игра классифицирована как: {{ prediction_result }}</p>
+    {% endif %}
+
+    <!-- Другие результаты (точность, количество успешных и неуспешных игр, важности признаков) -->
+    <h2>Другие результаты:</h2>
+    <p>Точность модели: {{ "%.4f"|format(accuracy) }}</p>
+    <p>Количество успешных игр: {{ success_count }}</p>
+    <p>Количество неуспешных игр: {{ failure_count }}</p>
+
+    {% if genres_importance_html %}
+        <h2>Важность признаков:</h2>
+        {{ genres_importance_html | safe }}
+        <p>Важность цены: {{ "%.4f"|format(feature_importances[0]) }}</p>
+        <p>Важность даты релиза: {{ "%.4f"|format(feature_importances[1]) }}</p>
+    {% endif %}
+
+    <!-- График важности признаков -->
+    {% if img_tag %}
+        <h2>График важности признаков:</h2>
+        {{ img_tag | safe }}
+    {% endif %}
+</body>
+</html>

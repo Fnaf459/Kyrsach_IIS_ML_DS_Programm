@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+          background-color: #000000;
+          color: #ffffff;
+        }
+
+        #content {
+          margin: 20px;
+        }
+    </style>
+    <title>Предсказание рейтинга игры</title>
+</head>
+<body>
+    <h1>Предсказание рейтинга игры</h1>
+    <form method="post" action="/Prediction_Linear_Regression/predict">
+        <label for="genres">Жанр:</label>
+        <input type="text" name="genres" id="genres" required><br>
+
+        <label for="price">Цена:</label>
+        <input type="number" name="price" id="price" required><br>
+
+        <label for="release_date">Дата релиза:</label>
+        <input type="text" name="release_date" id="release_date" required><br>
+
+        <input type="submit" value="Предсказать рейтинг">
+    </form>
+
+    {% if rating is defined %}
+        <h2>Предсказанный рейтинг игры: {{ rating|round(2) }}</h2>
+    {% endif %}
+
+    {% if prediction_accuracy is defined %}
+        <h2>Точность предсказания: {{ prediction_accuracy|round(4) }}</h2>
+    {% endif %}
+
+    {% if model_accuracy is defined %}
+        <h2>Точность модели по тестовым данным: {{ model_accuracy|round(4) }}</h2>
+    {% endif %}
+
+    {% if rating is defined %}
+        <h2>График фактических и предсказанных значений</h2>
+        <img src="{{ url_for('static', filename='scatter_plot.png') }}" alt="График фактических и предсказанных значений">
+
+        <h2>График распределения остатков</h2>
+        <img src="{{ url_for('static', filename='residuals_histogram.png') }}" alt="График распределения остатков">
+    {% endif %}
+
+</body>
+</html>

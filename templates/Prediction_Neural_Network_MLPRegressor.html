@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+          background-color: #000000;
+          color: #ffffff;
+        }
+
+        #content {
+          margin: 20px;
+        }
+    </style>
+    <title>Предсказания рейтинга игр</title>
+</head>
+<body>
+    <h1>Предсказания рейтинга игр</h1>
+
+    <form action="/Prediction_Neural_Network_MLPRegressor/predict" method="post">
+        <label for="genres">Жанры:</label>
+        <input type="text" id="genres" name="genres" required><br>
+
+        <label for="price">Цена:</label>
+        <input type="number" id="price" name="price" required><br>
+
+        <label for="releaseDate">Дата релиза:</label>
+        <input type="text" id="releaseDate" name="releaseDate" placeholder="YYYY-MM-DD" required><br>
+
+        <button type="submit">Предсказать рейтинг</button>
+    </form>
+
+    {% if prediction_result %}
+        <h2>Результат предсказания:</h2>
+        <p>{{ prediction_result }}</p>
+    {% endif %}
+
+    {% if mae_on_prediction %}
+        <h2>MAE на предсказании:</h2>
+        <p>{{ mae_on_prediction }}</p>
+    {% endif %}
+
+    {% if mse_on_prediction %}
+        <h2>MSE на предсказании:</h2>
+        <p>{{ mse_on_prediction }}</p>
+    {% endif %}
+
+    {% if accuracy %}
+        <h2>Точность модели:</h2>
+        <p>{{ accuracy }}% (on test data)</p>
+    {% endif %}
+
+    {% if std_deviation %}
+        <h2>Стандартное отклонение рейтингов:</h2>
+        <p>{{ std_deviation }}% (on test data)</p>
+    {% endif %}
+
+    {% if plot_image %}
+        <h2>График предсказаний:</h2>
+        <img src="data:image/png;base64, {{ plot_image }}" alt="График предсказаний">
+    {% endif %}
+
+</body>
+</html>
